@@ -3,21 +3,17 @@ class Solution:
         words = set(wordDict)
         memo = {}
 
+        curr = []
+        ans = []
         def fun(idx):
             if idx == len(s):
-                return [""]
-            if idx in memo:
-                return memo[idx]
-            ans = []
-            for i in range(idx + 1, len(s) + 1):
-                word = s[idx:i]
-                if word in words:
-                    for sub in fun(i):
-                        if sub:
-                            ans.append(word + " " + sub)
-                        else:
-                            ans.append(word)
-            memo[idx] = ans
-            return ans
-
-        return fun(0)
+                ans.append(" ".join(curr))
+                return
+            for j in range(idx , len(s)):
+                temp = s[idx: j+1]
+                if temp in wordDict:
+                    curr.append(temp)
+                    fun(j+1)
+                    curr.pop()
+        fun(0)
+        return ans
